@@ -21,9 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BaseController {
-    /*
-     * log4j日志记录
-     */
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
     protected void outJson(HttpServletResponse response, BaseEnum code, boolean flag, String msg, Object data) {
         try {
@@ -81,6 +78,7 @@ public class BaseController {
 
     protected void outJson(HttpServletResponse response, Object obj, final String... filters) {
         PropertyFilter filter = new PropertyFilter() {
+            @Override
             public boolean apply(Object source, String name, Object value) {
                 List list = Arrays.asList(filters);
                 return !list.contains(name);
