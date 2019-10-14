@@ -1,4 +1,4 @@
-package cn.loverot.base.controller;
+package cn.loverot.base.action;
 
 import cn.loverot.base.constant.e.BaseEnum;
 import cn.loverot.base.entity.BaseEntity;
@@ -20,7 +20,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 
-public class BaseController {
+public class BaseAction {
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
     protected void outJson(HttpServletResponse response, BaseEnum code, boolean flag, String msg, Object data) {
         try {
