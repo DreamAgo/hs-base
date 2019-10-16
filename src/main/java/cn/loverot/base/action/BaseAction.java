@@ -1,5 +1,6 @@
 package cn.loverot.base.action;
 
+import cn.loverot.base.constant.Const;
 import cn.loverot.base.constant.e.BaseEnum;
 import cn.loverot.base.entity.BaseEntity;
 import cn.loverot.base.entity.ResultJson;
@@ -19,9 +20,80 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 public class BaseAction {
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
+
+    /**
+     * 读取国际化资源文件
+     *
+     * @param key
+     *            键值
+     * @return 返回获取到的字符串
+     */
+    protected String getResString(String key) {
+        return Const.RESOURCES.getString(key);
+    }
+
+    /**
+     * 读取国际化资源文件，优先模块对应的资源文件，如果模块资源文件找不到就会优先基础层
+     *
+     * @param key
+     *            键值
+     * @param rb
+     *            模块对应资源文件
+     * @return 返回获取到的字符串
+     */
+    protected String getResString(String key, ResourceBundle rb) {
+        try {
+            return rb.getString(key);
+        } catch (MissingResourceException e) {
+            return Const.RESOURCES.getString(key);
+        }
+    }
+
+    /**
+     * 读取国际化资源文件
+     *
+     * @param key
+     *            键值
+     * @param fullStrs
+     *            需填充的值
+     * @return 返回获取到的字符串
+     */
+    protected String getResString(String key, String... fullStrs) {
+        String temp = this.getResString(key);
+        for (int i = 0; i < fullStrs.length; i++) {
+            temp = temp.replace("{" + i + "}", fullStrs[i]);
+        }
+        return temp;
+    }
+
+    /**
+     * 读取国际化资源文件，优先模块对应的资源文件，如果模块资源文件找不到就会优先基础层
+     *
+     * @param key
+     *            键值
+     * @param rb
+     *            模块对应资源文件
+     * @return 返回获取到的字符串
+     */
+    protected String getResString(String key, ResourceBundle rb, String... fullStrs) {
+        String temp = "";
+        try {
+            temp = rb.getString(key);
+        } catch (MissingResourceException e) {
+            temp = getResString(key);
+        }
+        for (int i = 0; i < fullStrs.length; i++) {
+            temp = temp.replace("{" + i + "}", fullStrs[i]);
+        }
+        return temp;
+    }
+
     protected void outJson(HttpServletResponse response, BaseEnum code, boolean flag, String msg, Object data) {
         try {
             response.setContentType("application/json;charset=utf-8");
@@ -154,18 +226,7 @@ public class BaseAction {
             return "";
         }
     }
-    /**
-     * 获取当期项目物理路径
-     *
-     * @param request
-     *            HttpServletRequest对象
-     * @param filePath
-     *            相对路径文件夹
-     * @return 返回当期项目物理路径
-     */
-    protected String getRealPath(HttpServletRequest request, String filePath) {
-        return request.getServletContext().getRealPath("") + File.separator + filePath;
-    }
+
     /**
      * 获取请求客户端ip
      *
@@ -174,7 +235,6 @@ public class BaseAction {
      */
     public String getIp(HttpServletRequest request) {
         String ipAddress = null;
-        // ipAddress = this.getRequest().getRemoteAddr();
         ipAddress = request.getHeader("x-forwarded-for");
         if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("Proxy-Client-IP");
@@ -194,10 +254,9 @@ public class BaseAction {
                 }
                 ipAddress = inet.getHostAddress();
             }
-
         }
         // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
-        if (ipAddress != null && ipAddress.length() > 15) { // "***.***.***.***".length()
+        if (ipAddress != null && ipAddress.length() > 15) {
             // = 15
             if (ipAddress.indexOf(",") > 0) {
                 ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));

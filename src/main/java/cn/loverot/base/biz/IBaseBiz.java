@@ -1,4 +1,4 @@
-package cn.loverot.base.service;
+package cn.loverot.base.biz;
 
 import cn.loverot.base.constant.e.TableEnum;
 import cn.loverot.base.entity.BaseEntity;
@@ -6,7 +6,7 @@ import cn.loverot.base.entity.BaseEntity;
 import java.util.List;
 import java.util.Map;
 
-public interface IBaseService <E> {
+public interface IBaseBiz<E> {
 
     void alterTable(String var1, Map var2, TableEnum var3);
 
