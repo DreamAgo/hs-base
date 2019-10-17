@@ -1,4 +1,4 @@
-package cn.loverot.base.constant.e;
+package cn.loverot.common.constant.e;
 
 public interface BaseEnum {
     String toString();

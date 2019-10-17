@@ -19,10 +19,9 @@ The MIT License (MIT) * Copyright (c) 2018 铭飞科技(mingsoft.net)
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package cn.loverot.base.constant;
+package cn.loverot.common.constant;
 
 import java.util.ResourceBundle;
-import org.springframework.context.ApplicationContext;
 
 
 /**
@@ -48,5 +47,6 @@ public final class Const {
 	 * URL路径符
 	 */
 	public final static String SEPARATOR ="/";
+
 
 }

@@ -1,4 +1,4 @@
-package cn.loverot.base.entity;
+package cn.loverot.common.entity;
 
 
 import com.alibaba.fastjson.annotation.JSONField;
